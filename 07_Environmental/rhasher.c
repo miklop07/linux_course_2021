@@ -15,11 +15,13 @@
 
 int main() {
     rhash_library_init();
-    const unsigned char digest[64];
+    unsigned char digest[64];
     char output[130];
 
     char* line = NULL;
+    #ifndef HAVE_READLINE
     size_t line_size = 0;
+    #endif
     while (printf("> "), GET_STRING(line, line_size)) {
         char* hash_name = strtok(line, " \n");
         if (hash_name == NULL) {
