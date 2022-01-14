@@ -12,7 +12,7 @@ AC_PROG_CC
 
 # Checks for libraries.
 AC_CHECK_LIB([rhash], [rhash_library_init], [], [AC_MSG_ERROR([Rhash is needed])])
-AC_CHECK_LIB([readline], [readline], [], [])
+AC_CHECK_LIB([readline], [readline])
 
 # Checks for header files.
 AC_CHECK_HEADERS([stdlib.h string.h])
