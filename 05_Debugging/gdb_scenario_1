@@ -1,0 +1,13 @@
+set logging file gdb_scenario_1.log
+set logging on
+b 35
+run 1 12
+printf "@@@%d %d %d\n", m, n, s
+while i < 11
+    if i % 5 == 0
+        printf "@@@%d\n", i
+    end
+    c
+end
+set logging off
+q

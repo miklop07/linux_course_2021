@@ -1,0 +1,15 @@
+set logging file gdb_scenario_2.log
+set logging on
+b 35
+run -100 100 3
+printf "@@@%d %d %d\n", m, n, s
+set $seq_index = 1
+while $seq_index < 36
+    if $seq_index > 27 && $seq_index < 36
+        printf "@@@%d", i
+    end
+    set $seq_index = $seq_index + 1
+    c
+end
+set logging off
+q
