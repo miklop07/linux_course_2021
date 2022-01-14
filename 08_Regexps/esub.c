@@ -39,11 +39,6 @@ int main(int argc, char** argv) {
     char* substitution = argv[2];
     char* string = argv[3];
 
-    if (substitution[strlen(substitution) - 1] == '\\') {
-        fprintf(stderr, "Wrong regexp: \\ at the end of substitution\n");
-        return -1;
-    }
-
     char error_string[100];
 
     regex_t r;
@@ -85,7 +80,7 @@ int main(int argc, char** argv) {
         }
 
         if (state == 'd') {
-            state = '\\';
+            state = '\\';   
             continue;
         }
 
@@ -93,7 +88,7 @@ int main(int argc, char** argv) {
             if (isdigit(substitution[i])) {
                 int digit = substitution[i] - '0';
                 if (pm[digit].rm_so == -1 || pm[digit].rm_eo == -1) {
-                    fprintf(stderr, "Invalid group \\%d\n", digit);
+                    fprintf(stderr, "invalid reference \\%d\n", digit);
                     regfree(&r);
                     return -1;
                 }
@@ -110,6 +105,12 @@ int main(int argc, char** argv) {
     for (int i = pm[0].rm_eo; i < strlen(string); ++i) {
         push_back(&result, string[i], &result_size, &result_capacity);
     }
+
+    if (state == '\\') {
+        fprintf(stderr, "Wrong regexp: \\ at the end of substitution\n");
+        return -1;
+    }
+
     puts(result);
     regfree(&r);
     return 0;
