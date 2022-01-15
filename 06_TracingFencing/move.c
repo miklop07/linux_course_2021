@@ -46,11 +46,21 @@ int main(int argc, char** argv) {
             prev_errno = errno;
             if (drop_errno()) {
                 perror("fclose in error");
+                remove(argv[2]);
+                if (drop_errno()) {
+                    perror("remove error");
+                    return prev_errno;
+                }
                 return prev_errno;
             }
             fclose(out);
             if (drop_errno()) {
                 perror("fclose out error");
+                remove(argv[2]);
+                if (drop_errno()) {
+                    perror("remove error");
+                    return prev_errno;
+                }
                 return prev_errno;
             }
             remove(argv[2]);
@@ -67,11 +77,21 @@ int main(int argc, char** argv) {
         fclose(in);
         if (drop_errno()) {
             perror("fclose in error");
+            remove(argv[2]);
+            if (drop_errno()) {
+                perror("remove error");
+                return prev_errno;
+            }
             return prev_errno;
         }
         fclose(out);
         if (drop_errno()) {
             perror("fclose out error");
+            remove(argv[2]);
+            if (drop_errno()) {
+                perror("remove error");
+                return prev_errno;
+            }
             return prev_errno;
         }
         remove(argv[2]);
@@ -86,12 +106,22 @@ int main(int argc, char** argv) {
     prev_errno = errno;
     if (drop_errno()) {
         perror("fclose in error");
+        remove(argv[2]);
+        if (drop_errno()) {
+            perror("remove error");
+            return prev_errno;
+        }
         return prev_errno;
     }
     fclose(out);
     prev_errno = errno;
     if (drop_errno()) {
         perror("fclose out error");
+        remove(argv[2]);
+        if (drop_errno()) {
+            perror("remove error");
+            return prev_errno;
+        }
         return prev_errno;
     }
     remove(argv[1]);
