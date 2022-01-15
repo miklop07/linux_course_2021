@@ -20,14 +20,16 @@ int main(int argc, char** argv) {
 
     FILE* in;
     if (!(in = fopen(argv[1], "r"))) {
+        perror("fopen in error");
         return errno;
     }
 
     FILE* out;
     if (!(out = fopen(argv[2], "w"))) {
+        perror("fopen out error");
         fclose(in);
         if (drop_errno()) {
-            perror("fclose error");
+            perror("fclose in error");
             return errno;
         }
         return errno;
@@ -36,38 +38,40 @@ int main(int argc, char** argv) {
     char c;
     while((c = fgetc(in)) != EOF){
         if(fputc(c, out) == EOF){
+            perror("fputc error");
             fclose(in);
             if (drop_errno()) {
-                perror("fclose error");
+                perror("fclose in error");
                 return errno;
             }
             fclose(out);
             if (drop_errno()) {
-                perror("fclose error");
+                perror("fclose out error");
                 return errno;
             }
             remove(argv[2]);
             if (drop_errno()) {
-                perror("remove error");
+                perror("remove out error");
                 return errno;
             }
             return errno;
         }
     }
     if (errno) {
+        perror("fgetc error");
         fclose(in);
         if (drop_errno()) {
-            perror("fclose error");
+            perror("fclose in error");
             return errno;
         }
         fclose(out);
         if (drop_errno()) {
-            perror("fclose error");
+            perror("fclose out error");
             return errno;
         }
         remove(argv[2]);
         if (drop_errno()) {
-            perror("remove error");
+            perror("remove out error");
             return errno;
         }
         return errno;
@@ -75,17 +79,17 @@ int main(int argc, char** argv) {
 
     fclose(in);
     if (drop_errno()) {
-        perror("fclose error");
+        perror("fclose in error");
         return errno;
     }
     fclose(out);
     if (drop_errno()) {
-        perror("fclose error");
+        perror("fclose out error");
         return errno;
     }
     remove(argv[1]);
     if (drop_errno()) {
-        perror("remove error");
+        perror("remove in error");
         return errno;
     }
     return errno;
